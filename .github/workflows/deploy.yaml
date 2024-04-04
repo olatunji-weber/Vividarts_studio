@@ -29,9 +29,9 @@ jobs:
           tags: |
             briandev254/vividarts_studio:latest
             briandev254/vividarts_studio:${{ github.sha }}
-            env:
-              DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-              DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+        env:
+            DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Deploy application
         env:
