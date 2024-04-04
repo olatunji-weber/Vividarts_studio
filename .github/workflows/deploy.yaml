@@ -57,7 +57,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSUTORY: vividart_studios
-          IMAGE_TAG: vividart_studios
+          IMAGE_TAG: latest
         run: |
           docker push $ECR_REGISTRY/vividart_studios:vividart_studios
 
