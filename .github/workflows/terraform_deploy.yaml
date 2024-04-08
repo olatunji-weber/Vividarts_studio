@@ -36,7 +36,7 @@ jobs:
             - name: Terraform Workflow
               run: |
                 # Initialize Terraform in the specified environment directory
-                cd ../infra
+                cd infra
                 terraform init
         
                 # Validate Terraform configuration in the specified environment directory
