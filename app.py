@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import boto3
 import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -20,8 +21,9 @@ def upload():
     if request.method =='POST':
         img = request.files['file']
         if img:
-            img.save(img.filename)
-            s3.upload_file(Bucket = S3_BUCKET_NAME, Filename = filename, Key = filename)
+            filename = secure_filename(img.filename)
+            img.save(filename)
+            s3.upload_file(Bucket=S3_BUCKET_NAME, Filename=filename, Key=filename)
             msg = "File Uploaded Successfully"
     return render_template('index.html', msg=msg)
 
