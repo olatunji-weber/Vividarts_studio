@@ -16,14 +16,19 @@ def index():
 
 
 @app.route('/upload', methods=['POST'])
-def upload():
-    if request.method =='POST':
-        img = request.files['file']
-        if img:
-            img.save(img.filename)
-            s3.upload_file(Bucket = S3_BUCKET_NAME, Filename = filename, Key = filename)
-            msg = "File Uploaded Successfully"
-    return render_template('index.html', msg=msg)
+def upload_file():
+    if 'file' not in request.files:
+        return 'No file part'
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return 'No selected file'
+
+    # Upload file to S3
+    s3.upload_fileobj(file, S3_BUCKET_NAME, file.filename)
+
+    return 'File uploaded successfully'
 
 
 if __name__ == '__main__':
