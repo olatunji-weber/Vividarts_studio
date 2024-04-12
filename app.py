@@ -5,12 +5,11 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-AWS_ACCESS_KEY_ID = os.environ.get('VIVID_ACCESS_KEY')
-AWS_SECRET_ACCESS_KEY = os.environ.get('VIVID_SECRET_KEY')
-S3_BUCKET_NAME = 'vividart-studios-user-uploads'
+AWS_ACCESS_KEY_ID = os.environ.get("aws_key_id")
+AWS_SECRET_ACCESS_KEY = os.environ.get("aws_secret_key")
+S3_BUCKET_NAME = 'vividbucket-beanstalk2'
 
-s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
-                  aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+s3 = boto3.client(S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
 
 
 @app.route('/')
@@ -20,15 +19,9 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    if request.method == 'POST':
-        img = request.files['file']
-        if img:
-            filename = secure_filename(img.filename)
-            img.save(filename)
-            s3.upload_file(Bucket=S3_BUCKET_NAME,
-                           Filename=filename, Key=filename)
-            msg = "File Uploaded Successfully"
-    return render_template('index.html', msg=msg)
+    file = request.files['file']
+    s3.upload_fileobj(file, 'vividbucket-beanstalk2', file.filename)
+    return 'File uploaded successfully'
 
 
 if __name__ == '__main__':

@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+env:
+  aws_key_id: ${{ secrets.VIVID_ACCESS_KEY }}
+  aws_secret_key: ${{ secrets.VIVID_SECRET_KEY }}
+  # dockerhub_username: ${{ secrets.DOCKERHUB_USERNAME }}
+  # dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
+
 jobs:
   push_to_registry:
     runs-on: ubuntu-latest
